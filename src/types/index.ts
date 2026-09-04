@@ -46,6 +46,34 @@ export type ScreeningResultCategory = 'ROUTINE' | 'REVIEW' | 'PRIORITY' | 'RETAK
 
 export type QualityStatus = 'PASS' | 'FAIL';
 
+export interface QualityFeature {
+  name: string;
+  score: number;
+  assessment: 'Good' | 'Acceptable' | 'Poor';
+}
+
+export interface LesionFinding {
+  lesionType: string;
+  count: number;
+  location?: string;
+  confidence: number;
+}
+
+export interface SeverityAssessment {
+  icdrGrade: number;
+  gradeLabel: string;
+  referable: boolean;
+  gradingPathway: 'rule-based' | 'cnn';
+  agreement: boolean;
+}
+
+export interface Explainability {
+  calibratedConfidence: number;
+  lesionAttentionOverlap: number;
+  flagged: boolean;
+  flagReason?: string;
+}
+
 export interface ScreeningRecord {
   id: string; // e.g. SCR-2026-04921
   patientId: string;
@@ -63,6 +91,10 @@ export interface ScreeningRecord {
   centreName: string;
   healthWorkerName: string;
   isDemoSample?: boolean;
+  qualityFeatures?: QualityFeature[];
+  findings?: LesionFinding[];
+  severity?: SeverityAssessment;
+  explainability?: Explainability;
   // AI decision support details (visible to specialist only)
   aiDetails?: {
     modelVersion: string;

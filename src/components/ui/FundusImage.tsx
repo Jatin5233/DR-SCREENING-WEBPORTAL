@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import { Eye, ZoomIn, X } from 'lucide-react';
+import fundusGood from '../../assets/demo/fundus-good.jpg';
+import fundusPoorBlur from '../../assets/demo/fundus-poor-blur.jpg';
+import fundusPoorDark from '../../assets/demo/fundus-poor-dark.jpg';
+import fundusPriority from '../../assets/demo/fundus-priority.jpg';
+import fundusReview from '../../assets/demo/fundus-review.jpg';
 
 interface FundusImageProps {
   src: string;
@@ -23,10 +28,14 @@ export const FundusImage: React.FC<FundusImageProps> = ({
   const [loaded, setLoaded] = useState(false);
   const [zoomed, setZoomed] = useState(false);
 
-  // Normalize image src for Vite asset resolution
-  const resolvedSrc = src.startsWith('/src/assets/')
-    ? new URL(`../..${src.replace('/src', '')}`, import.meta.url).href
-    : src;
+  const demoImages: Record<string, string> = {
+    '/src/assets/demo/fundus-good.jpg': fundusGood,
+    '/src/assets/demo/fundus-poor-blur.jpg': fundusPoorBlur,
+    '/src/assets/demo/fundus-poor-dark.jpg': fundusPoorDark,
+    '/src/assets/demo/fundus-priority.jpg': fundusPriority,
+    '/src/assets/demo/fundus-review.jpg': fundusReview,
+  };
+  const resolvedSrc = demoImages[src] || src;
 
   const sizeClasses = {
     thumb: 'w-16 h-16 rounded-lg',
